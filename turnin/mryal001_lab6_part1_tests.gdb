@@ -27,18 +27,38 @@ echo ======================================================\n
 echo Running all tests..."\n\n
 
 # Example test:
-test "PORTB => 0x04"
+test "State: Start, Period: 1, PORTB => 0x01"
 # Set state
 set state = Start
 # Continue for several ticks
-continue 2
+timeContinue 1
 # Set expect values
-expectPORTB 0x00
-expect state 0
+expectPORTB 0x01
+expect state light1
 # Check pass/fail
 checkResult
 
 # Add tests below
+test "State: Start, Period: 2, PORTB => 0x02"
+set state = Start
+timeContinue 2
+expectPORTB 0x02
+expect state light2
+checkResult
+
+test "State: Start, Period: 3, PORTB => 0x04"
+set state = Start
+timeContinue 3
+expectPORTB 0x04
+expect state light3
+checkResult
+
+test "State: Start, Period: 4, PORTB => 0x01"
+set state = Start
+timeContinue 4
+expectPORTB 0x01
+expect state light1
+checkResult
 
 # Report on how many tests passed/tests ran
 set $passed=$tests-$failed
