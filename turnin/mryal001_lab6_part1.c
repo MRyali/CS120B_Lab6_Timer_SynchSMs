@@ -70,12 +70,10 @@ int main(void) {
     while (1) {
 	Tick();
 
-	tempB = ~tempB;
 	PORTB = tempB;
 
 	while(!TimerFlag);
 	TimerFlag = 0;
-	
     }
     
     return 1;
