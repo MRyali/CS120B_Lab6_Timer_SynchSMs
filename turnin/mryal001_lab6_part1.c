@@ -30,6 +30,7 @@ void Tick() {
 			break;
 		case light2: //PB1
 			state = light3;
+			break;
 		case light3: //PB2
 			state = light1;
 			break;
