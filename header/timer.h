@@ -1,3 +1,6 @@
+#include <avr/io.h>
+#include <avr/interrupt.h>
+
 volatile unsigned char TimerFlag = 0; //TimerISR() sets this to 1. C programmer shouold clear to 0.
 
 //Internal variables for mapping AVR's ISR to our cleaner TimerISR model
