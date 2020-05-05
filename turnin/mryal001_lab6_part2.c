@@ -51,7 +51,7 @@ void Tick() {
 			break;
 		case wait1:
 			if (button) {
-				state = light2;
+				state = light1;
 			}
 			else {
 				state = wait1;
@@ -59,7 +59,7 @@ void Tick() {
 			break;
 		case wait2:
 			if (button) {
-				state = light3;
+				state = light2;
 			}
 			else {
 				state = wait2;
@@ -67,7 +67,7 @@ void Tick() {
 			break;
 		case wait3:
 			if (button) {
-				state = light1;
+				state = light3;
 			}
 			else {
 				state = wait3;
@@ -118,13 +118,12 @@ int main(void) {
 
 	while (1) {
 		button = ~PINA & 0x08; //PA0
+		
 		Tick();
-
 		PORTB = tempB;
 
 		while(!TimerFlag);
 		TimerFlag = 0;
-	
    	}
     
     	return 1;
