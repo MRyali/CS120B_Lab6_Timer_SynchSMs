@@ -50,7 +50,7 @@ void Tick() {
 			}
 			break;
 		case wait1:
-			if (button) {
+			if (!button) {
 				state = release1;
 			}
 			else {
@@ -58,7 +58,7 @@ void Tick() {
 			}
 			break;
 		case wait2:
-			if (button) {
+			if (!button) {
 				state = release2;
 			}
 			else {
@@ -66,7 +66,7 @@ void Tick() {
 			}
 			break;
 		case wait3:
-			if (button) {
+			if (!button) {
 				state = release3;
 			}
 			else {
@@ -74,7 +74,7 @@ void Tick() {
 			}
 			break;
 		case release1:
-			if (!button) {
+			if (button) {
 				state = light1;
 			}
 			else {
@@ -82,7 +82,7 @@ void Tick() {
 			}
 			break;
 		case release2:
-			if (!button) {
+			if (button) {
 				state = light1;
 			}
 			else {
@@ -90,7 +90,7 @@ void Tick() {
 			}
 			break;
 		case release3:
-			if (!button) {
+			if (button) {
 				state = light1;
 			}
 			else {
@@ -150,7 +150,7 @@ int main(void) {
 	state = Start;
 
 	while (1) {
-		button = ~PINA & 0x01; //PA0
+		button = ~PINA & 0x08; //PA0
 		Tick();
 
 		PORTB = tempB;
