@@ -59,7 +59,7 @@ void Tick() {
 			break;
 		case wait2:
 			if (button) {
-				state = light2;
+				state = light1;
 			}
 			else {
 				state = wait2;
@@ -67,7 +67,7 @@ void Tick() {
 			break;
 		case wait3:
 			if (button) {
-				state = light3;
+				state = light1;
 			}
 			else {
 				state = wait3;
@@ -117,7 +117,7 @@ int main(void) {
 	state = Start;
 
 	while (1) {
-		button = ~PINA & 0x08; //PA0
+		button = ~PINA & 0x01; //PA0
 		
 		Tick();
 
