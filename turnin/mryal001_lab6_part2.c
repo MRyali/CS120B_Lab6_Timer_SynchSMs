@@ -83,7 +83,7 @@ void Tick() {
 			break;
 		case release2:
 			if (button) {
-				state = light2;
+				state = light1;
 			}
 			else {
 				state = release2;
@@ -91,7 +91,7 @@ void Tick() {
 			break;
 		case release3:
 			if (button) {
-				state = light3;
+				state = light1;
 			}
 			else {
 				state = release3;
@@ -115,6 +115,7 @@ void Tick() {
 		case light3: //PB2
 			tempB = 0x04;
 			break;
+		/*
 		case wait1:
 			tempB = 0x01;
 			break;
@@ -133,6 +134,7 @@ void Tick() {
 		case release3:
 			tempB = 0x04;
 			break;
+		*/
 		default:
 			break;
 	
@@ -155,8 +157,7 @@ int main(void) {
 
 		while(!TimerFlag);
 		TimerFlag = 0;
-
-		tempB = ~tempB;
+;
 		PORTB = tempB;
 	
    	}
