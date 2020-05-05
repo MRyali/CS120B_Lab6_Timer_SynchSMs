@@ -48,7 +48,7 @@ void Tick() {
 			if (button1) {//check if both pressed
 				state = Zero;
 			}
-			else { //wait for new action
+			if (button0) { //wait for new action
 				state = Wait;
 			}
 			break;
@@ -56,7 +56,7 @@ void Tick() {
 			if (button0) {//check if both pressed
 				state = Zero;
 			}
-			else { //wait for new action
+			if (!button1){ //wait for new action
 				state = Wait;
 			}
 			break;
