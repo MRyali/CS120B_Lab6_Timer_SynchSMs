@@ -61,7 +61,7 @@ void Tick() {
 			}
 			break;
 		case Zero: //check which button is pushed during zero state
-			if (!button0) && (!button1) {
+			if ((!button0) && (!button1)) {
 				state = Wait;
 			}
 			else {
