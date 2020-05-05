@@ -111,7 +111,7 @@ int main(void) {
 	DDRA = 0x00; PORTA = 0xFF; //input
 	DDRB = 0xFF; PORTB = 0x00; //output
 
-	TimerSet(300); //1000ms = 1s
+	TimerSet(300); //300ms = .3s
 	TimerOn();
 
 	state = Start;
@@ -120,10 +120,11 @@ int main(void) {
 		button = ~PINA & 0x08; //PA0
 		
 		Tick();
-		PORTB = tempB;
 
 		while(!TimerFlag);
 		TimerFlag = 0;
+
+		PORTB = tempB;
    	}
     
     	return 1;
