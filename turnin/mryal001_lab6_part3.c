@@ -16,7 +16,7 @@
 #include "timer.h"
 #endif
 
-enum States {Start, Init, Inc, Dec, Zero, Wait} state;
+enum States {Start, Inc, Dec, Zero, Wait} state;
 
 unsigned char tempB = 0; //temp for PORTB
 unsigned char timer = 0; //timer
@@ -26,8 +26,9 @@ unsigned char button1; //PA1
 void Tick() {
 	switch(state) {
 		case Start:
-			state = Init;
+			state = Wait;
 			break;
+		/*
 		case Init:
 			if (button0 && !button1) { //check if PA0 is 1
 				state = Inc;
@@ -42,8 +43,9 @@ void Tick() {
 				state = Init;
 			}
 			break;
+		*/
 		case Inc:
-			if (button0 && button1) {//check if both pressed
+			if (button1) {//check if both pressed
 				state = Zero;
 			}
 			else { //wait for new action
@@ -51,7 +53,7 @@ void Tick() {
 			}
 			break;
 		case Dec:
-			if (button0 && button1) {//check if both pressed
+			if (button0) {//check if both pressed
 				state = Zero;
 			}
 			else { //wait for new action
@@ -59,25 +61,19 @@ void Tick() {
 			}
 			break;
 		case Zero: //check which button is pushed during zero state
-			if (button0 && !button1) {
-				state = Inc;
-			}
-			else if (!button0 && button1) {
-				state = Dec;
-			}
-			else if (!button0 && !button1) {
-				state = Init;
+			if (!button0) && (!button1) {
+				state = Wait;
 			}
 			else {
 				state = Zero;
 			}
 			break;
 		case Wait: //wait for new action
-			if (!button0 && !button1) {
-				state = Init;
+			if (button0) {
+				state = Inc;
 			}
-			else if (button0 && button1) {
-				state = Zero;
+			else if (button1) {
+				state = Dec;
 			}
 			else {
 				state = Wait;
@@ -91,8 +87,11 @@ void Tick() {
 	switch(state) {
 		case Start:
 			break;
+		/*
 		case Init:
+			timer = 0;
 			break;
+		*/
 		case Inc: //increase while temp is below 9
 			if (timer == 0 && tempB < 9) {
 				tempB++;
