@@ -150,7 +150,7 @@ int main(void) {
 	state = Start;
 
 	while (1) {
-		button = ~PINA & 0x01; //PA0
+		button = ~PINA & 0x08; //PA0
 		Tick();
 
 		while(!TimerFlag);
