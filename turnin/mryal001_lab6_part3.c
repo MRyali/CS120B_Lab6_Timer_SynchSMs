@@ -18,7 +18,8 @@
 
 enum States {Start, Init, Inc, Dec, Zero, Wait} state;
 
-unsigned char tempB; //temp for PORTB
+unsigned char tempB = 0; //temp for PORTB
+unsigned char timer = 0; //timer
 unsigned char button0; //PA0
 unsigned char button1; //PA1
 
@@ -93,19 +94,37 @@ void Tick() {
 		case Init:
 			break;
 		case Inc: //increase while temp is below 9
-			if (tempB < 9) {
-				tempB = tempB + 1;
+			if (timer == 0 && tempB < 9) {
+				tempB++;
+				timer++;
+			}
+			timer++;
+			if (timer == 100) { //10 sec
+				if (tempB < 9) {
+					tempB++;
+					timer = 1;
+				}
 			}
 			break;
 		case Dec: //decrease while temp is greater than 0
-			if (tempB > 0) {
-				tempB = tempB - 1;
+			if (timer == 0 && tempB > 0) {
+				tempB--;
+				timer++;
+			}
+			timer++;
+			if (timer == 100) { //10 sec
+				if (tempB > 0) {
+					tempB--;
+					timer = 1;
+				}
 			}
 			break;
 		case Zero: //set to zero
 			tempB = 0;
+			timer = 0;
 			break;
 		case Wait:
+			timer = 0;
 			break;
 		default:
 			break;
@@ -118,7 +137,7 @@ int main(void) {
 	DDRA = 0x00; PORTA = 0xFF; //input
 	DDRB = 0xFF; PORTB = 0x00; //output
 
-	TimerSet(100); //100ms
+	TimerSet(10); //10ms
 	TimerOn();
 
 	state = Start;
