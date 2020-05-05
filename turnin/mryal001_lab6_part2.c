@@ -18,7 +18,7 @@
 
 enum States{Start, light1, light2, light3, wait1, wait2, wait3, release1, release2, release3} state;
 unsigned char tempB = 0x00; //temp for Port B
-unsigned char button;
+unsigned char button; //input from PA0
 
 void Tick() {
 	switch(state){
@@ -144,7 +144,7 @@ int main(void) {
 	DDRA = 0x00; PORTA = 0xFF; //input
 	DDRB = 0xFF; PORTB = 0x00; //output
 
-	TimerSet(300); //1000ms = 1s
+	TimerSet(300); //300ms = 1s
 	TimerOn();
 
 	state = Start;
@@ -153,10 +153,10 @@ int main(void) {
 		button = ~PINA & 0x01; //PA0
 		Tick();
 
-		PORTB = tempB;
-
 		while(!TimerFlag);
 		TimerFlag = 0;
+
+		PORTB = tempB;
 	
    	}
     
