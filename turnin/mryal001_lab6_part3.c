@@ -136,7 +136,7 @@ int main(void) {
 	DDRA = 0x00; PORTA = 0xFF; //input
 	DDRB = 0xFF; PORTB = 0x00; //output
 
-	TimerSet(10); //10ms
+	TimerSet(100); //10ms
 	TimerOn();
 
 	state = Start;

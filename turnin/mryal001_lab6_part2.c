@@ -30,6 +30,9 @@ void Tick() {
 				if (button) {
 					state = wait;
 				}
+				else {
+					state = light2;
+				}
 			}
 			else {
 				state = light2;
@@ -39,6 +42,9 @@ void Tick() {
 			if (!button) {
 				if (button) {
 					state = wait;
+				}
+				else {
+					state = light3;
 				}
 			}
 			else {
@@ -50,6 +56,9 @@ void Tick() {
 				if (button) {
 					state = wait;
 				}
+				else {
+					state = light4;
+				}
 			}
 			else {
 				state = light4;
@@ -59,6 +68,9 @@ void Tick() {
 			if (!button) {
 				if (button) {
 					state = wait;
+				}
+				else {
+					state = light1;
 				}
 			}
 			else {
@@ -82,12 +94,7 @@ void Tick() {
 			}
 			break;
 		case reset: 
-			if (!button) {
-				state = light1;
-			}
-			else {
-				state = reset;
-			}
+			state = light1;
 			break;
 		default:
 			state = Start;
