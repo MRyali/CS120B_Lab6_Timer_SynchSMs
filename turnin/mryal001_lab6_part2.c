@@ -19,8 +19,6 @@
 enum States{Start, light1, light2, light3, wait, release, reset} state;
 unsigned char tempB = 0x00; //temp for Port B
 unsigned char button; //input from PA0
-unsigned char s; //tracks state
-
 
 void Tick() {
 	switch(state){
@@ -29,7 +27,6 @@ void Tick() {
 			break;
 		case light1: //PB0
 			if (button) {
-				s = 1;
 				state = wait;
 			}
 			else {
@@ -38,7 +35,6 @@ void Tick() {
 			break;
 		case light2: //PB1
 			if (button) {
-				s = 2;
 				state = wait;
 			}
 			else {
@@ -47,7 +43,6 @@ void Tick() {
 			break;
 		case light3: //PB2
 			if (button) {
-				s = 3;
 				state = wait;
 			}
 			else {
@@ -62,24 +57,6 @@ void Tick() {
 				state = wait;
 			}
 			break;
-		/*
-		case wait2:
-			if (!button) {
-				state = release2;
-			}
-			else {
-				state = wait2;
-			}
-			break;
-		case wait3:
-			if (!button) {
-				state = release3;
-			}
-			else {
-				state = wait3;
-			}
-			break;
-		*/
 		case release:
 			if (button) {
 				state = reset;
@@ -88,28 +65,9 @@ void Tick() {
 				state = release;
 			}
 			break;
-		/*
-		case release2:
-			if (button) {
-				state = light1;
-			}
-			else {
-				state = release2;
-			}
-			break;
-		case release3:
-			if (button) {
-				state = light1;
-			}
-			else {
-				state = release3;
-			}
-			break;
-		*/
 		case reset: 
 			if (!button) {
 				state = light1;
-			
 			}
 			else {
 				state = reset;
@@ -118,7 +76,6 @@ void Tick() {
 		default:
 			state = Start;
 			break;
-	
 	}
 
 	switch(state) {
@@ -139,26 +96,6 @@ void Tick() {
 			break;
 		case reset:
 			break;
-		/*
-		case wait1:
-			tempB = 0x01;
-			break;
-		case wait2:
-			tempB = 0x02;
-			break;
-		case wait3:
-			tempB = 0x04;
-			break;
-		case release1:
-			tempB = 0x01;
-			break;
-		case release2:
-			tempB = 0x02;
-			break;
-		case release3:
-			tempB = 0x04;
-			break;
-		*/
 		default:
 			break;
 	
@@ -176,14 +113,13 @@ int main(void) {
 	state = Start;
 
 	while (1) {
-		button = ~PINA & 0x08; //PA0
+		button = ~PINA & 0x01; //PA0
 		Tick();
 
 		while(!TimerFlag);
 		TimerFlag = 0;
-;
+
 		PORTB = tempB;
-	
    	}
     
     	return 1;
