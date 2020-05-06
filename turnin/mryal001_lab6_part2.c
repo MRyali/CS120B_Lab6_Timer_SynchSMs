@@ -16,7 +16,7 @@
 #include "timer.h"
 #endif
 
-enum States{Start, light1, light2, light3, wait, release, reset} state;
+enum States{Start, light1, light2, light3, light4, wait, release, reset} state;
 unsigned char tempB = 0x00; //temp for Port B
 unsigned char button; //input from PA0
 
@@ -42,6 +42,14 @@ void Tick() {
 			}
 			break;
 		case light3: //PB2
+			if (button) {
+				state = wait;
+			}
+			else {
+				state = light4;
+			}
+			break;
+		case light4:
 			if (button) {
 				state = wait;
 			}
@@ -90,6 +98,9 @@ void Tick() {
 		case light3: //PB2
 			tempB = 0x04;
 			break;
+		case light4:
+			tempB = 0x02;
+			break;
 		case wait:
 			break;
 		case release:
@@ -113,7 +124,7 @@ int main(void) {
 	state = Start;
 
 	while (1) {
-		button = ~PINA & 0x08; //PA0
+		button = ~PINA & 0x01; //PA0
 		Tick();
 
 		while(!TimerFlag);

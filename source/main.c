@@ -1,82 +1,84 @@
 /*	Author: Mayur Ryali
- *  Partner(s) Name:
- *	Lab Section: 21
- *	Assignment: Lab #6 Exercise #3
+ *  Partner(s) Name: 
+ *	Lab Section:21
+ *	Assignment: Lab #6  Exercise #2
  *	Exercise Description: [optional - include for your own benefit]
  *
  *	I acknowledge all content contained herein, excluding template or example
  *	code, is my own original work.
  */
 
- // Demo: https://drive.google.com/open?id=1-H2FFMoAWYfxVfR9-F5Kz63ZMj1wJPfE
- 
+// Demo: 
+
 #include <avr/io.h>
 #ifdef _SIMULATE_
 #include "simAVRHeader.h"
 #include "timer.h"
 #endif
 
-enum States {Start, Inc, Dec, Zero, Wait} state;
-
-unsigned char tempB = 0; //temp for PORTB
-unsigned char timer = 0; //timer
-unsigned char button0; //PA0
-unsigned char button1; //PA1
+enum States{Start, light1, light2, light3, light4, wait, release, reset} state;
+unsigned char tempB = 0x00; //temp for Port B
+unsigned char button; //input from PA0
 
 void Tick() {
-	switch(state) {
+	switch(state){
 		case Start:
-			state = Wait;
+			state = light1;
 			break;
-		/*
-		case Init:
-			if (button0 && !button1) { //check if PA0 is 1
-				state = Inc;
-			}
-			else if (!button0 && button1) { //check if PA1 is 1
-				state = Dec;
-			}
-			else if (button0 && button1) { //check if both are pressed
-				state = Zero;
-			}
-			else { //wait for button push
-				state = Init;
-			}
-			break;
-		*/
-		case Inc:
-			if (button1) {//check if both pressed
-				state = Zero;
-			}
-			if (!button0) { //wait for new action
-				state = Wait;
-			}
-			break;
-		case Dec:
-			if (button0) {//check if both pressed
-				state = Zero;
-			}
-			if (!button1){ //wait for new action
-				state = Wait;
-			}
-			break;
-		case Zero: //check which button is pushed during zero state
-			if ((!button0) && (!button1)) {
-				state = Wait;
+		case light1: //PB0
+			if (button) {
+				state = wait;
 			}
 			else {
-				state = Zero;
+				state = light2;
 			}
 			break;
-		case Wait: //wait for new action
-			if (button0) {
-				state = Inc;
-			}
-			else if (button1) {
-				state = Dec;
+		case light2: //PB1
+			if (button) {
+				state = wait;
 			}
 			else {
-				state = Wait;
+				state = light3;
+			}
+			break;
+		case light3: //PB2
+			if (button) {
+				state = wait;
+			}
+			else {
+				state = light4;
+			}
+			break;
+		case light4:
+			if (button) {
+				state = wait;
+			}
+			else {
+				state = light1;
+			}
+			break;
+		case wait:
+			if (!button) {
+				state = release;
+			}
+			else {
+				state = wait;
+			}
+			break;
+		case release:
+			if (button) {
+				state = reset;
+			}
+			else {
+				state = release;
+			}
+			break;
+		case reset: 
+			if (!button) {
+				state = light1;
+			}
+			else {
+				state = reset;
 			}
 			break;
 		default:
@@ -87,71 +89,49 @@ void Tick() {
 	switch(state) {
 		case Start:
 			break;
-		/*
-		case Init:
-			timer = 0;
+		case light1: //PB0
+			tempB = 0x01;
 			break;
-		*/
-		case Inc: //increase while temp is below 9
-			if (timer == 0 && tempB < 9) {
-				tempB++;
-				timer++;
-			}
-			timer++;
-			if (timer == 100) { //10 sec
-				if (tempB < 9) {
-					tempB++;
-					timer = 1;
-				}
-			}
+		case light2: //PB1
+			tempB = 0x02;
 			break;
-		case Dec: //decrease while temp is greater than 0
-			if (timer == 0 && tempB > 0) {
-				tempB--;
-				timer++;
-			}
-			timer++;
-			if (timer == 100) { //10 sec
-				if (tempB > 0) {
-					tempB--;
-					timer = 1;
-				}
-			}
+		case light3: //PB2
+			tempB = 0x04;
 			break;
-		case Zero: //set to zero
-			tempB = 0;
-			timer = 0;
+		case light4:
+			tempB = 0x02;
 			break;
-		case Wait:
-			timer = 0;
+		case wait:
+			break;
+		case release:
+			break;
+		case reset:
 			break;
 		default:
 			break;
+	
 	}
 }
-
 
 
 int main(void) {
 	DDRA = 0x00; PORTA = 0xFF; //input
 	DDRB = 0xFF; PORTB = 0x00; //output
 
-	TimerSet(10); //10ms
+	TimerSet(300); //300ms = 1s
 	TimerOn();
 
 	state = Start;
-	tempB = 0x07; //initially start with 7
 
-    	while (1) {
-		button0 = ~PINA & 0x01; //PA0, negated to account for pull-up mode
-		button1 = ~PINA & 0x02; //PA1, negated for pull-up mode
-		
+	while (1) {
+		button = ~PINA & 0x01; //PA0
 		Tick();
 
 		while(!TimerFlag);
 		TimerFlag = 0;
 
 		PORTB = tempB;
-    	}
+   	}
+    
     	return 1;
 }
