@@ -26,32 +26,40 @@ void Tick() {
 			state = light1;
 			break;
 		case light1: //PB0
-			if (button) {
-				state = wait;
+			if (!button) {
+				if (button) {
+					state = wait;
+				}
 			}
 			else {
 				state = light2;
 			}
 			break;
 		case light2: //PB1
-			if (button) {
-				state = wait;
+			if (!button) {
+				if (button) {
+					state = wait;
+				}
 			}
 			else {
 				state = light3;
 			}
 			break;
 		case light3: //PB2
-			if (button) {
-				state = wait;
+			if (!button) {
+				if (button) {
+					state = wait;
+				}
 			}
 			else {
 				state = light4;
 			}
 			break;
 		case light4:
-			if (button) {
-				state = wait;
+			if (!button) {
+				if (button) {
+					state = wait;
+				}
 			}
 			else {
 				state = light1;
