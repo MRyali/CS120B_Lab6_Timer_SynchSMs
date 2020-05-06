@@ -19,6 +19,8 @@
 enum States{Start, light1, light2, light3, light4, wait, release, reset} state;
 unsigned char tempB = 0x00; //temp for Port B
 unsigned char button; //input from PA0
+unsigned char s = 0; //tracks if previous state was reset or not
+unsigned char tmp = 1;
 
 void Tick() {
 	switch(state){
@@ -26,15 +28,27 @@ void Tick() {
 			state = light1;
 			break;
 		case light1: //PB0
-			if (button) {
+			if (!button) {
+				tmp = 1;
+			}
+			if (button && s == 0 && tmp == 1) { //previous state was NOT rest
 				state = wait;
 			}
+			else if (button && s == 1) { //previous state WAS reset
+				tmp = 0;
+				s = 0; //reset tracker 
+				state = light2;
+			}
 			else {
+				s = 0;
 				state = light2;
 			}
 			break;
 		case light2: //PB1
-			if (button) {
+			if (!button) {
+				tmp = 1;
+			}
+			if (button && tmp == 1) {
 				state = wait;
 			}
 			else {
@@ -42,7 +56,10 @@ void Tick() {
 			}
 			break;
 		case light3: //PB2
-			if (button) {
+			if (!button) {
+				tmp = 1;
+			}
+			if (button && tmp == 1) {
 				state = wait;
 			}
 			else {
@@ -50,10 +67,13 @@ void Tick() {
 			}
 			break;
 		case light4:
-			if (button) {
+			if (!button) {
+				tmp = 1;
+			}
+			if (button && tmp == 1) {
 				state = wait;
 			}
-			else {
+			else {	
 				state = light1;
 			}
 			break;
@@ -73,13 +93,10 @@ void Tick() {
 				state = release;
 			}
 			break;
-		case reset: 
-			if (!button) {
-				state = light1;
-			}
-			else {
-				state = reset;
-			}
+		case reset:
+		       	tmp = 1;	
+			s = 1;
+			state = light1;
 			break;
 		default:
 			state = Start;
