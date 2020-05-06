@@ -16,9 +16,11 @@
 #include "timer.h"
 #endif
 
-enum States{Start, light1, light2, light3, wait1, wait2, wait3, release1, release2, release3} state;
+enum States{Start, light1, light2, light3, wait, release, reset} state;
 unsigned char tempB = 0x00; //temp for Port B
 unsigned char button; //input from PA0
+unsigned char s; //tracks state
+
 
 void Tick() {
 	switch(state){
@@ -27,7 +29,8 @@ void Tick() {
 			break;
 		case light1: //PB0
 			if (button) {
-				state = wait1;
+				s = 1;
+				state = wait;
 			}
 			else {
 				state = light2;
@@ -35,7 +38,8 @@ void Tick() {
 			break;
 		case light2: //PB1
 			if (button) {
-				state = wait2;
+				s = 2;
+				state = wait;
 			}
 			else {
 				state = light3;
@@ -43,20 +47,22 @@ void Tick() {
 			break;
 		case light3: //PB2
 			if (button) {
-				state = wait3;
+				s = 3;
+				state = wait;
 			}
 			else {
 				state = light1;
 			}
 			break;
-		case wait1:
+		case wait:
 			if (!button) {
-				state = release1;
+				state = release;
 			}
 			else {
-				state = wait1;
+				state = wait;
 			}
 			break;
+		/*
 		case wait2:
 			if (!button) {
 				state = release2;
@@ -73,14 +79,16 @@ void Tick() {
 				state = wait3;
 			}
 			break;
-		case release1:
+		*/
+		case release:
 			if (button) {
-				state = light1;
+				state = reset;
 			}
 			else {
-				state = release1;
+				state = release;
 			}
 			break;
+		/*
 		case release2:
 			if (button) {
 				state = light1;
@@ -95,6 +103,16 @@ void Tick() {
 			}
 			else {
 				state = release3;
+			}
+			break;
+		*/
+		case reset: 
+			if (!button) {
+				state = light1;
+			
+			}
+			else {
+				state = reset;
 			}
 			break;
 		default:
@@ -114,6 +132,12 @@ void Tick() {
 			break;
 		case light3: //PB2
 			tempB = 0x04;
+			break;
+		case wait:
+			break;
+		case release:
+			break;
+		case reset:
 			break;
 		/*
 		case wait1:
