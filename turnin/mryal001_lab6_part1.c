@@ -1,5 +1,5 @@
 /*	Author: Mayur Ryali
- *  Partner(s) Name: 
+ *  Partner(s) Name:
  *	Lab Section:21
  *	Assignment: Lab #6  Exercise #1
  *	Exercise Description: [optional - include for your own benefit]
@@ -8,7 +8,7 @@
  *	code, is my own original work.
  */
 
-// Demo: 
+// Demo: https://drive.google.com/open?id=1-eL6lvj8tBDGlZZY4pS5OD0DHE4nPa5u
 
 #include <avr/io.h>
 #ifdef _SIMULATE_
@@ -37,7 +37,7 @@ void Tick() {
 		default:
 			state = Start;
 			break;
-	
+
 	}
 
 	switch(state) {
@@ -54,7 +54,7 @@ void Tick() {
 			break;
 		default:
 			break;
-	
+
 	}
 }
 
@@ -75,6 +75,6 @@ int main(void) {
 	while(!TimerFlag);
 	TimerFlag = 0;
     }
-    
+
     return 1;
 }

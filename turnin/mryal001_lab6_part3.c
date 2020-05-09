@@ -8,8 +8,8 @@
  *	code, is my own original work.
  */
 
- // Demo: https://drive.google.com/open?id=1-H2FFMoAWYfxVfR9-F5Kz63ZMj1wJPfE
- 
+ // Demo: https://drive.google.com/file/d/1-pwNl3VlFuZa5uekdIjUkxbgd4sEnhxU/view?usp=sharing
+
 #include <avr/io.h>
 #ifdef _SIMULATE_
 #include "simAVRHeader.h"
@@ -145,7 +145,7 @@ int main(void) {
     	while (1) {
 		button0 = ~PINA & 0x01; //PA0, negated to account for pull-up mode
 		button1 = ~PINA & 0x02; //PA1, negated for pull-up mode
-		
+
 		Tick();
 
 		while(!TimerFlag);
