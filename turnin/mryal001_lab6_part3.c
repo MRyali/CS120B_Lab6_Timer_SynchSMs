@@ -45,19 +45,25 @@ void Tick() {
 			break;
 		*/
 		case Inc:
-			if (button1) {//check if both pressed
+			if (button1 && button0) {//check if both pressed
 				state = Zero;
 			}
-			if (!button0) { //wait for new action
+			else if (!button0) { //wait for new action
 				state = Wait;
+			}
+			else {
+				state = Inc;
 			}
 			break;
 		case Dec:
-			if (button0) {//check if both pressed
+			if (button0 && button1) {//check if both pressed
 				state = Zero;
 			}
-			if (!button1){ //wait for new action
+			else if (!button1){ //wait for new action
 				state = Wait;
+			}
+			else {
+				state = Dec;
 			}
 			break;
 		case Zero: //check which button is pushed during zero state
@@ -98,7 +104,7 @@ void Tick() {
 				timer++;
 			}
 			timer++;
-			if (timer == 100) { //10 sec
+			if (timer == 10) { //10 sec
 				if (tempB < 9) {
 					tempB++;
 					timer = 1;
@@ -111,7 +117,7 @@ void Tick() {
 				timer++;
 			}
 			timer++;
-			if (timer == 100) { //10 sec
+			if (timer == 10) { //10 sec
 				if (tempB > 0) {
 					tempB--;
 					timer = 1;
