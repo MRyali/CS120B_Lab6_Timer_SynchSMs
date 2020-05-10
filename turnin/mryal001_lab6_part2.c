@@ -1,5 +1,5 @@
 /*	Author: Mayur Ryali
- *  Partner(s) Name: 
+ *  Partner(s) Name:
  *	Lab Section:21
  *	Assignment: Lab #6  Exercise #2
  *	Exercise Description: [optional - include for your own benefit]
@@ -8,7 +8,8 @@
  *	code, is my own original work.
  */
 
-// Demo: 
+// Demo: https://drive.google.com/open?id=1-xi196et4XCCJ5h8Gri7VcV6m_isYfUw
+
 
 #include <avr/io.h>
 #ifdef _SIMULATE_
@@ -36,7 +37,7 @@ void Tick() {
 			}
 			else if (button && s == 1) { //previous state WAS reset
 				tmp = 0;
-				s = 0; //reset tracker 
+				s = 0; //reset tracker
 				state = light2;
 			}
 			else {
@@ -73,7 +74,7 @@ void Tick() {
 			if (button && tmp == 1) {
 				state = wait;
 			}
-			else {	
+			else {
 				state = light1;
 			}
 			break;
@@ -94,7 +95,7 @@ void Tick() {
 			}
 			break;
 		case reset:
-		       	tmp = 1;	
+		       	tmp = 1;
 			s = 1;
 			state = light1;
 			break;
@@ -126,7 +127,7 @@ void Tick() {
 			break;
 		default:
 			break;
-	
+
 	}
 }
 
@@ -149,6 +150,6 @@ int main(void) {
 
 		PORTB = tempB;
    	}
-    
+
     	return 1;
 }
